@@ -6,7 +6,7 @@ from future.utils import iteritems
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import six
-from django.utils.encoding import force_text, smart_text
+from django.utils.encoding import force_text, smart_text, escape_uri_path
 from django.utils.html import escape
 from django.utils.translation import ugettext as _
 from django.utils.xmlutils import SimplerXMLGenerator
@@ -224,8 +224,8 @@ class ExportPlugin(BaseAdminPlugin):
             content_type="%s; charset=UTF-8" % self.export_mimes[file_type])
 
         file_name = self.opts.verbose_name.replace(' ', '_')
-        response['Content-Disposition'] = ('attachment; filename=%s.%s' % (
-            file_name, file_type)).encode('utf-8')
+        filename = '{}.{}'.format(file_name, file_type)
+        response['Content-Disposition'] = ("attachment; filename*=utf-8''{}".format(escape_uri_path(filename)))
 
         response.write(getattr(self, 'get_%s_export' % file_type)(context))
         return response
