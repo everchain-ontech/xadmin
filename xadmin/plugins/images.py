@@ -81,7 +81,16 @@ class ModelDetailPlugin(BaseAdminPlugin):
         if isinstance(result.field, models.ImageField):
             if result.value:
                 img = getattr(result.obj, field_name)
-                result.text = mark_safe('<a href="%s" target="_blank" title="%s" data-gallery="gallery"><img src="%s" class="field_img"/></a>' % (img.url, result.label, img.url))
+		if not img.url.startswith("http"):
+                    image_url = "%s%s%s" % (
+                        settings.SITENAME_DOMAIN,
+                        settings.STATIC_URL,
+                        img.url
+                    )
+                else:
+                    image_url = img.url
+                result.text = mark_safe('<a href="%s" target="_blank" title="%s" data-gallery="gallery">'
+                        '<img src="%s" class="field_img"/></a>' % (image_url, result.label, image_url))
                 self.include_image = True
         return result
 
