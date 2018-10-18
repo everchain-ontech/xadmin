@@ -57,7 +57,7 @@ class BaseActionView(ModelAdminView):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        if django_version > (2, 0):
+        if django_version > (2, 1):
             for model in self.admin_site._registry:
                 if not hasattr(self.admin_site._registry[model], 'has_delete_permission'):
                     setattr(self.admin_site._registry[model], 'has_delete_permission', self.has_delete_permission)

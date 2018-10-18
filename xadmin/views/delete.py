@@ -19,7 +19,7 @@ class DeleteAdminView(ModelAdminView):
     delete_confirmation_template = None
 
     def __init__(self, request, *args, **kwargs):
-        if django_version > (2, 0):
+        if django_version > (2, 1):
             for model in self.admin_site._registry:
                 if not hasattr(self.admin_site._registry[model], 'has_delete_permission'):
                     setattr(self.admin_site._registry[model], 'has_delete_permission', self.has_delete_permission)
@@ -39,7 +39,7 @@ class DeleteAdminView(ModelAdminView):
 
         # Populate deleted_objects, a data structure of all related objects that
         # will also be deleted.
-        if django_version > (2, 0):
+        if django_version > (2, 1):
             (self.deleted_objects, model_count, self.perms_needed, self.protected) = get_deleted_objects(
                 [self.obj], self.opts, self.admin_site)
         else:
