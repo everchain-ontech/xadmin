@@ -81,7 +81,7 @@ class ModelDetailPlugin(BaseAdminPlugin):
         if isinstance(result.field, models.ImageField):
             if result.value:
                 img = getattr(result.obj, field_name)
-		if not img.url.startswith("http"):
+                if not img.url.startswith("http"):
                     image_url = "%s%s%s" % (
                         settings.SITENAME_DOMAIN,
                         settings.STATIC_URL,
