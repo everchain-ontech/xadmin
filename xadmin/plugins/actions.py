@@ -1,11 +1,12 @@
 from collections import OrderedDict
+import six
+
 from django import forms, VERSION as django_version
 from django.core.exceptions import PermissionDenied
 from django.db import router
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.template.response import TemplateResponse
-from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _, ungettext
@@ -107,6 +108,7 @@ class DeleteSelectedAction(BaseActionView):
             using = router.db_for_write(self.model)
             deletable_objects, model_count, perms_needed, protected = get_deleted_objects(
                 queryset, self.opts, self.user, self.admin_site, using)
+
 
         # The user has already confirmed the deletion.
         # Do the deletion and return a None to display the change list view again.
