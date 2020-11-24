@@ -66,7 +66,7 @@ class TopNavPlugin(BaseAdminPlugin):
                 except NoReverseMatch:
                     pass
 
-        nodes.append(
+        return nodes.append(
             loader.render_to_string('xadmin/blocks/comm.top.topnav.html', {'add_models': add_models}))
 
 

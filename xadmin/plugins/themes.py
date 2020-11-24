@@ -73,7 +73,7 @@ class ThemePlugin(BaseAdminPlugin):
                 ex_themes = []
                 try:
                     h = httplib2.Http()
-                    resp, content = h.request("https://bootswatch.com/api/3.json", 'GET', '',
+                    resp, content = h.request("https://static.everchain.site/static/xadmin/theme.json", 'GET', '',
                                               headers={"Accept": "application/json", "User-Agent": self.request.META['HTTP_USER_AGENT']})
                     if six.PY3:
                         content = content.decode()
@@ -88,7 +88,8 @@ class ThemePlugin(BaseAdminPlugin):
                 cache.set(THEME_CACHE_KEY, json.dumps(ex_themes), 24 * 3600)
                 themes.extend(ex_themes)
 
-        nodes.append(loader.render_to_string('xadmin/blocks/comm.top.theme.html', {'themes': themes, 'select_css': select_css}))
+        return nodes.append(loader.render_to_string(
+            'xadmin/blocks/comm.top.theme.html', {'themes': themes, 'select_css': select_css}))
 
 
 site.register_plugin(ThemePlugin, BaseAdminView)
